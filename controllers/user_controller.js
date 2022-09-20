@@ -94,9 +94,6 @@ exports.login = (req, res, next) => {
         })
     }
 
-
-
-
 }
 
 exports.authenticated = (req, res, next) => {
