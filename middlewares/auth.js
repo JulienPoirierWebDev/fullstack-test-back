@@ -5,12 +5,17 @@ module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.PRIVATE_KEY);
-        const userId = decodedToken.userId;
-        if (req.body.userId && req.body.userId !== userId) {
-            throw 'Invalid user ID';
+        const id_user = decodedToken.userId;
+        if(!req.body.id_user) {
+            res.status(401).json({
+                error: "UserId missing"
+            });
         } else {
-            req.auth = {userId}
-            next();
+            if (req.body.id_user && req.body.id_user !== id_user) {
+                throw 'Invalid user ID';
+            } else {
+                next();
+            }
         }
     }
     catch {

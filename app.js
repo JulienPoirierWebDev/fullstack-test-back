@@ -2,6 +2,7 @@ const express = require('express');
 
 const userRoutes = require("./routes/user_routes")
 const imageRoutes = require("./routes/image_routes")
+const itemRoutes = require("./routes/item_routes")
 
 
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/api/user', userRoutes);
 app.use('/api/image', imageRoutes);
+app.use('/api/item', itemRoutes);
 
 
 
