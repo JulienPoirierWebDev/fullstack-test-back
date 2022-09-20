@@ -11,8 +11,6 @@ router.get('/', image_controller.getAllImage);
 
 router.get('/:id([0-9]{1,})', image_controller.getOneImage);
 
-router.put('/:id([0-9]{1,})', auth, image_controller.modifyOneImage);
-
 router.delete('/:id', auth, image_controller.deleteOneImage);
 
 module.exports = router;
