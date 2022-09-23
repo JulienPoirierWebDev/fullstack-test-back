@@ -15,4 +15,8 @@ router.put('/:id([0-9]{1,})', auth, item_controller.modifyOneItem);
 
 router.delete('/:id', auth, item_controller.deleteOneItem);
 
+router.get('/pagination/:pagination([0-9]{1,})', item_controller.getPagination)
+
+router.get('/get_categories', item_controller.getCategories)
+
 module.exports = router;

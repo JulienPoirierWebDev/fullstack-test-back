@@ -3,7 +3,7 @@ const item_model = require("../models/item_model")
 const getPool = require("../database/connexion")
 const jwt = require("jsonwebtoken");
 const pool= getPool()
-const table = "item";
+const table = "items";
 
 
 exports.createOneItem = (req, res, next) => {
@@ -117,4 +117,47 @@ exports.deleteOneItem = (req, res, next) => {
     }
 }
 
+exports.getPagination = (req, res) => {
+
+    try{
+
+    } catch (err) {
+        res.status(500).json({
+            message:"Erreur interne",
+            err
+        })
+    }
+
+    let nb_items = 10;
+    let pagination = (req.params.pagination - 1) *  nb_items
+
+
+
+    let query = "SELECT * FROM items LIMIT " + nb_items + " OFFSET " + pagination
+
+
+    pool.query( query, (err, result) => {
+        if (err) {
+            res.status(404).json(err)
+        }
+        else if (!result[0]) {
+            res.status(404).send("No result")
+        }
+        else if (!err && result) {
+            res.json(result)
+
+        } else {
+            res.status(204)
+        }
+
+
+    })
+
+}
+
+exports.getCategories = (req, res) => {
+    res.status(200).json({
+        categories: ["fantasy", "science-fiction", "thriller", "horreur", "érotique", "policier", "romance"]
+    })
+}
 

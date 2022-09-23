@@ -2,6 +2,7 @@ const multer = require('multer');
 
 const queryFunction = require("../database/queries")
 const image_model = require("../models/image_model")
+const path = require("path");
 
 const table = "images";
 
@@ -15,19 +16,8 @@ const storage = multer.diskStorage({
             type = ".png"
         } else if(file.mimetype === "image/jpeg") {
             type = ".jpg"
-        } else if(file.mimetype === "application/pdf") {
-            type = ".pdf"
-        } else if(file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-            type = ".docx"
-        } else if(file.mimetype === "application/msword") {
-            type = ".doc"
-        } else if(file.mimetype === "text/csv") {
-            type = ".csv"
-        } else if(file.mimetype === "application/vnd.ms-excel") {
-            type = ".xls"
-        } else if(file.mimetype === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-            type = ".xlsx"
         }
+
 
         let name;
         if(typeof req.body.name !== "undefined") {
@@ -39,7 +29,6 @@ const storage = multer.diskStorage({
 
     }
 });
-
 
 
 
@@ -105,5 +94,11 @@ exports.deleteOneImage = (req, res, next) => {
     }
 }
 
-exports.uploadImg = multer({storage: storage}).single('image');
+exports.uploadImg = multer({storage: storage, fileFilter: function (req, file, callback) {
+    let ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+        return callback(new Error('Only images are allowed'))
+    }
+    callback(null, true)
+}}).single('image');
 
